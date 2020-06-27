@@ -10,7 +10,11 @@ import 'fly.dart';
 
 
 class AgileFly extends Fly {
+
   final double scaleRatio = 1.5;
+
+  double get speed => game.tileSize * 5;
+
   AgileFly(LangawGame game, double x, double y) : super(game) {
     flyRect = Rect.fromLTWH(x, y, game.tileSize * scaleRatio, game.tileSize * scaleRatio);
 
