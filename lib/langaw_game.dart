@@ -7,7 +7,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/flame.dart';
 import 'package:flutterflame/component/backyard.dart';
+import 'package:flutterflame/component/house_fly.dart';
+import 'component/agile_fly.dart';
+import 'component/drooler_fly.dart';
 import 'component/fly.dart';
+import 'component/hungry_fly.dart';
+import 'component/muscle_fly.dart';
 
 
 class LangawGame extends Game{
@@ -66,7 +71,23 @@ class LangawGame extends Game{
   void spawnFly(){
     double x = random.nextDouble() * (screenSize.width - tileSize);
     double y = random.nextDouble() * (screenSize.height - tileSize);
-    flies.add(Fly(this,x,y));
+    switch (random.nextInt(5)) {
+      case 0:
+        flies.add(HouseFly(this, x, y));
+        break;
+      case 1:
+        flies.add(DroolerFly(this, x, y));
+        break;
+      case 2:
+        flies.add(AgileFly(this, x, y));
+        break;
+      case 3:
+        flies.add(MuscleFly(this, x, y));
+        break;
+      case 4:
+        flies.add(HungryFly(this, x, y));
+        break;
+    }
   }
 
   void onTapDown(TapDownDetails details){
