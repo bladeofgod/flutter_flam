@@ -69,8 +69,8 @@ class LangawGame extends Game{
 
 
   void spawnFly(){
-    double x = random.nextDouble() * (screenSize.width - tileSize);
-    double y = random.nextDouble() * (screenSize.height - tileSize);
+    double x = random.nextDouble() * (screenSize.width - (tileSize*1.5*1.35));
+    double y = random.nextDouble() * (screenSize.height - (tileSize*1.5*1.35));
     switch (random.nextInt(5)) {
       case 0:
         flies.add(HouseFly(this, x, y));
