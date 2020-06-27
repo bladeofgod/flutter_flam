@@ -7,6 +7,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/flame.dart';
 import 'package:flutterflame/component/backyard.dart';
+import 'package:flutterflame/component/credits_button.dart';
+import 'package:flutterflame/component/help_button.dart';
 import 'package:flutterflame/component/house_fly.dart';
 import 'package:flutterflame/component/start_button.dart';
 import 'package:flutterflame/controllers/fly_spawner.dart';
@@ -31,6 +33,8 @@ class LangawGame extends Game{
   LostView lostView;
 
   StartButton startButton;
+  HelpButton helpButton;
+  CreditsButton creditsButton;
 
   FlySpawner flySpawner;
 
@@ -49,6 +53,8 @@ class LangawGame extends Game{
     homeView = HomeView(this);
     lostView = LostView(this);
     startButton = StartButton(this);
+    helpButton = HelpButton(this);
+    creditsButton = CreditsButton(this);
     backyard = Backyard(this);
 
 
@@ -76,7 +82,10 @@ class LangawGame extends Game{
     if(activeView == View.lost) lostView.render(canvas);
     if(activeView == View.home || activeView == View.lost){
       startButton.render(canvas);
+      helpButton.render(canvas);
+      creditsButton.render(canvas);
     }
+
   }
 
   drawBG(Canvas canvas){
@@ -120,7 +129,7 @@ class LangawGame extends Game{
 
 
   void onTapDown(TapDownDetails details){
-
+    ///点击事件是否被消费
     bool isHandled = false;
     if(!isHandled && startButton.rect.contains(details.globalPosition)){
       if(activeView == View.home || activeView == View.lost){
@@ -128,6 +137,22 @@ class LangawGame extends Game{
         isHandled = true;
       }
     }
+    // 教程按钮
+    if (!isHandled && helpButton.rect.contains(details.globalPosition)) {
+      if (activeView == View.home || activeView == View.lost) {
+        helpButton.onTapDown();
+        isHandled = true;
+      }
+    }
+
+    // 感谢按钮
+    if (!isHandled && creditsButton.rect.contains(details.globalPosition)) {
+      if (activeView == View.home || activeView == View.lost) {
+        creditsButton.onTapDown();
+        isHandled = true;
+      }
+    }
+
     if(!isHandled){
       bool didHitAFly = false;
       flies.forEach((fly) {

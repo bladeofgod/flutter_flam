@@ -1,5 +1,5 @@
 
 
 enum View{
-  home,playing,lost
+  home,playing,lost,help,credits
 }
