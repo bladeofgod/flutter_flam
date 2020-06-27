@@ -13,6 +13,8 @@ import 'package:flutterflame/component/house_fly.dart';
 import 'package:flutterflame/component/start_button.dart';
 import 'package:flutterflame/controllers/fly_spawner.dart';
 import 'package:flutterflame/view.dart';
+import 'package:flutterflame/views/credits_view.dart';
+import 'package:flutterflame/views/help_view.dart';
 import 'package:flutterflame/views/home_view.dart';
 import 'package:flutterflame/views/lost_view.dart';
 import 'component/agile_fly.dart';
@@ -31,10 +33,14 @@ class LangawGame extends Game{
 
   HomeView homeView;
   LostView lostView;
+  HelpView helpView;
+  CreditsView creditsView;
 
   StartButton startButton;
   HelpButton helpButton;
   CreditsButton creditsButton;
+
+
 
   FlySpawner flySpawner;
 
@@ -52,6 +58,9 @@ class LangawGame extends Game{
 
     homeView = HomeView(this);
     lostView = LostView(this);
+    helpView = HelpView(this);
+    creditsView = CreditsView(this);
+
     startButton = StartButton(this);
     helpButton = HelpButton(this);
     creditsButton = CreditsButton(this);
@@ -85,6 +94,9 @@ class LangawGame extends Game{
       helpButton.render(canvas);
       creditsButton.render(canvas);
     }
+
+    if (activeView == View.help) helpView.render(canvas);
+    if (activeView == View.credits) creditsView.render(canvas);
 
   }
 
@@ -137,6 +149,15 @@ class LangawGame extends Game{
         isHandled = true;
       }
     }
+    ///reset help&credits
+    if(!isHandled){
+      if(activeView == View.help || activeView == View.credits){
+        activeView = View.home;
+        isHandled = true;
+      }
+    }
+
+
     // 教程按钮
     if (!isHandled && helpButton.rect.contains(details.globalPosition)) {
       if (activeView == View.home || activeView == View.lost) {
@@ -166,6 +187,23 @@ class LangawGame extends Game{
         activeView = View.lost;
       }
     }
+    ///help
+    if(!isHandled && helpButton.rect.contains(details.globalPosition)){
+      if(activeView == View.help || activeView == View.lost){
+        helpButton.onTapDown();
+        isHandled = true;
+      }
+    }
+
+
+    ///credits
+    if(!isHandled && creditsButton.rect.contains(details.globalPosition)){
+      if(activeView == View.credits || activeView == View.lost){
+        creditsButton.onTapDown();
+        isHandled = true;
+      }
+    }
+
 
   }
 
