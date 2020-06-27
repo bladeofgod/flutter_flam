@@ -72,7 +72,7 @@ class Fly with BaseComponent{
 
   onTapDown(){
     isDead = true;
-    game.spawnFly();
+
   }
 }
 

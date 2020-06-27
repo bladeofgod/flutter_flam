@@ -35,6 +35,7 @@ class StartButton with BaseComponent{
 
   void onTapDown(){
     game.activeView = View.playing;
+    game.flySpawner.start();
   }
 }
 

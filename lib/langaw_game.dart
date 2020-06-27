@@ -9,8 +9,10 @@ import 'package:flame/flame.dart';
 import 'package:flutterflame/component/backyard.dart';
 import 'package:flutterflame/component/house_fly.dart';
 import 'package:flutterflame/component/start_button.dart';
+import 'package:flutterflame/controllers/fly_spawner.dart';
 import 'package:flutterflame/view.dart';
 import 'package:flutterflame/views/home_view.dart';
+import 'package:flutterflame/views/lost_view.dart';
 import 'component/agile_fly.dart';
 import 'component/drooler_fly.dart';
 import 'component/fly.dart';
@@ -26,8 +28,11 @@ class LangawGame extends Game{
   View activeView = View.home;
 
   HomeView homeView;
+  LostView lostView;
 
   StartButton startButton;
+
+  FlySpawner flySpawner;
 
   LangawGame(){
     initialize();
@@ -36,14 +41,17 @@ class LangawGame extends Game{
   Random random;
 
   void initialize()async{
+    random = Random();
     flies = [];
     resize(await Flame.util.initialDimensions());
+    flySpawner = FlySpawner(this);
 
     homeView = HomeView(this);
+    lostView = LostView(this);
     startButton = StartButton(this);
     backyard = Backyard(this);
-    random = Random();
-    spawnFly();
+
+
   }
 
 
@@ -65,6 +73,7 @@ class LangawGame extends Game{
     flies.forEach((element)=>element.render(canvas));
 
     if(activeView == View.home)homeView.render(canvas);
+    if(activeView == View.lost) lostView.render(canvas);
     if(activeView == View.home || activeView == View.lost){
       startButton.render(canvas);
     }
@@ -82,6 +91,7 @@ class LangawGame extends Game{
   void update(double c) {
     flies.forEach((element)=>element.update(c));
     flies.removeWhere((element) => element.isOutOffScreen);
+    flySpawner.update(c);
   }
 
 
