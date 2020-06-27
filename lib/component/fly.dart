@@ -1,9 +1,10 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutterflame/component/base_component.dart';
 import 'package:flutterflame/langaw_game.dart';
 
-class Fly{
+class Fly with BaseComponent{
 
   final LangawGame game;
 
@@ -22,10 +23,12 @@ class Fly{
     flyPaint.color = Color(0xff6ab04c);
   }
 
+  @override
   void render(Canvas c){
     c.drawRect(flyRect, flyPaint);
   }
 
+  @override
   void update(double t){
     if(isDead){
       flyRect = flyRect.translate(0, game.tileSize * 12 * t);

@@ -6,12 +6,14 @@ import 'package:flame/game/game.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/flame.dart';
+import 'package:flutterflame/component/backyard.dart';
 import 'component/fly.dart';
 
 
 class LangawGame extends Game{
 
   List<Fly> flies;
+  Backyard backyard;
 
   LangawGame(){
     initialize();
@@ -22,6 +24,7 @@ class LangawGame extends Game{
   void initialize()async{
     flies = [];
     resize(await Flame.util.initialDimensions());
+    backyard = Backyard(this);
     random = Random();
     spawnFly();
   }
@@ -41,6 +44,7 @@ class LangawGame extends Game{
   @override
   void render(Canvas canvas) {
     drawBG(canvas);
+    backyard.render(canvas);
     flies.forEach((element)=>element.render(canvas));
   }
 
