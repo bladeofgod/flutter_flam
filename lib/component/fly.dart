@@ -3,6 +3,7 @@
 import 'package:flame/sprite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterflame/component/base_component.dart';
+import 'package:flutterflame/component/callout.dart';
 import 'package:flutterflame/langaw_game.dart';
 import 'package:flutterflame/view.dart';
 
@@ -13,6 +14,8 @@ class Fly with BaseComponent{
   List<Sprite> flyingSprite;
   Sprite deadSprite;
   double flyingSpriteIndex = 0;
+
+  Callout callout;
 
   Rect flyRect;
 
@@ -31,6 +34,7 @@ class Fly with BaseComponent{
 
 
   Fly(this.game){
+    callout = Callout(this);
     setTargetLocation();
   }
 
@@ -40,6 +44,9 @@ class Fly with BaseComponent{
       deadSprite.renderRect(canvas, flyRect.inflate(2));
     }else{
       flyingSprite[flyingSpriteIndex.toInt()].renderRect(canvas, flyRect.inflate(2));
+      if(game.activeView == View.playing){
+        callout.render(canvas);
+      }
     }
 
   }
@@ -68,6 +75,7 @@ class Fly with BaseComponent{
         flyRect = flyRect.shift(toTarget);
         setTargetLocation();
       }
+      callout.update(t);
     }
   }
 
