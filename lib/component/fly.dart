@@ -4,6 +4,7 @@ import 'package:flame/sprite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterflame/component/base_component.dart';
 import 'package:flutterflame/langaw_game.dart';
+import 'package:flutterflame/view.dart';
 
 class Fly with BaseComponent{
 
@@ -71,7 +72,12 @@ class Fly with BaseComponent{
   }
 
   onTapDown(){
-    isDead = true;
+    if(!isDead){
+      isDead = true;
+      if(game.activeView == View.playing){
+        game.score +=1;
+      }
+    }
 
   }
 }

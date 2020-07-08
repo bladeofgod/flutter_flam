@@ -10,6 +10,7 @@ import 'package:flutterflame/component/backyard.dart';
 import 'package:flutterflame/component/credits_button.dart';
 import 'package:flutterflame/component/help_button.dart';
 import 'package:flutterflame/component/house_fly.dart';
+import 'package:flutterflame/component/score_display.dart';
 import 'package:flutterflame/component/start_button.dart';
 import 'package:flutterflame/controllers/fly_spawner.dart';
 import 'package:flutterflame/view.dart';
@@ -26,10 +27,15 @@ import 'component/muscle_fly.dart';
 
 class LangawGame extends Game{
 
+  ///游戏分数
+  int score;
+
   List<Fly> flies;
   Backyard backyard;
   //scene
   View activeView = View.home;
+
+  ScoreDisplay scoreDisplay;
 
   HomeView homeView;
   LostView lostView;
@@ -51,9 +57,13 @@ class LangawGame extends Game{
   Random random;
 
   void initialize()async{
+    score = 0;
     random = Random();
     flies = [];
     resize(await Flame.util.initialDimensions());
+
+    scoreDisplay = ScoreDisplay(this);
+
     flySpawner = FlySpawner(this);
 
     homeView = HomeView(this);
@@ -85,6 +95,9 @@ class LangawGame extends Game{
   void render(Canvas canvas) {
     drawBG(canvas);
     backyard.render(canvas);
+
+    if(activeView == View.playing)scoreDisplay.render(canvas);
+
     flies.forEach((element)=>element.render(canvas));
 
     if(activeView == View.home)homeView.render(canvas);
@@ -110,6 +123,9 @@ class LangawGame extends Game{
 
   @override
   void update(double c) {
+    if(activeView == View.playing){
+      scoreDisplay.update(c);
+    }
     flies.forEach((element)=>element.update(c));
     flies.removeWhere((element) => element.isOutOffScreen);
     flySpawner.update(c);
